@@ -14,5 +14,9 @@ Install on Ubuntu:
   
   
 How to Compile and run project:
-  gcc hangman.c -lcurl -o example
+
+
+gcc hangman.c -lcurl -o example
+  
+  
   ./example
