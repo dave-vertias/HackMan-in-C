@@ -4,6 +4,7 @@
 #include <curl/curl.h>
 #include <math.h>
 #include <unistd.h>
+#include <ctype.h>
 
 #define pi 3.142857
 
@@ -11,17 +12,27 @@ int contains(char entered, char *word, char *hidden_word, int *win_count){
     int c = 0;
     for(int i = 0; i < strlen(word); i++){
         if(word[i] == entered){
+            if(hidden_word[i] == '*') 
+                (*win_count)++;
             hidden_word[i] = word[i];
             c++;
-            (*win_count)++;
         }
     }
     return c;
 }
 
+int alphabet_update(char entered, char* alphabet){
+    for(int i = 0; i < strlen(alphabet); i++){
+        if(alphabet[i] == entered)
+            alphabet[i] = '*';
+    }
+}
+
 //hangman game
 int main(int argc, char **argv){
 
+    //alphabet array
+    char alphabet[27] = "abcdefghijklmnopqrstuvwxyz";
 
     //section 1: CALL API----------------------------------------------------------------
     CURL *curl;
@@ -36,7 +47,7 @@ int main(int argc, char **argv){
     curl = curl_easy_init();
 
     //set URL and operations
-    curl_easy_setopt(curl, CURLOPT_URL, "https://clemsonhackman.com/api/word?key=");
+    curl_easy_setopt(curl, CURLOPT_URL, "https://clemsonhackman.com/api/word?key=26392");
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
     curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
 
@@ -163,19 +174,25 @@ int main(int argc, char **argv){
         }
         if(win_count == (int)strlen(word)){
             system("clear");
-            printf("\n\nYOU WIN!!\n\n");
+            printf("\n\n====================================\n");
+            printf("|       YOU WIN!!!         |\n");
+            printf("====================================\n\n");
             printf("\nWord: %s\n\n", word);
             exit(0);
         }
 
         printf("Word to Guess: %s\n", hidden_word);
+        printf("\nRemaining Letters: %s\n", alphabet);
         printf("\n\nEnter a character to guess: ");
         scanf(" %c",&guessing);
+        guessing = tolower(guessing);
         printf("\n");
 
         if(contains(guessing, word, hidden_word, &win_count) == 0){
             count++;
         } 
+
+        result = alphabet_update(guessing, alphabet);
         
         system("clear");
     }
