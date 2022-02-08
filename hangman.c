@@ -47,7 +47,7 @@ int main(int argc, char **argv){
     curl = curl_easy_init();
 
     //set URL and operations
-    curl_easy_setopt(curl, CURLOPT_URL, "https://clemsonhackman.com/api/word?key=");
+    curl_easy_setopt(curl, CURLOPT_URL, "https://clemsonhackman.com/api/word?key=26392");
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
     curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
 
@@ -175,7 +175,7 @@ int main(int argc, char **argv){
         if(win_count == (int)strlen(word)){
             system("clear");
             printf("\n\n====================================\n");
-            printf("|       YOU WIN!!!         |\n");
+            printf("|       YOU WIN!!!                 |\n");
             printf("====================================\n\n");
             printf("\nWord: %s\n\n", word);
             exit(0);
