@@ -15,7 +15,7 @@ Install on Ubuntu:
   
 How to Compile and run project:
 
-got to line 39 in source and add your API key to the query string. 
+go to line 39 in source and add your API key to the query string. 
 
 
 39: curl_easy_setopt(curl, CURLOPT_URL, "https://clemsonhackman.com/api/word?key=");
